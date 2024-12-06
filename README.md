@@ -16,3 +16,4 @@ Mettre a jour les fichiers:
 - git commit -m "Message" (Mettez un message meme nul car sinon vous aller avoir une fenetre pour ajouter un message donc relou)
 - git config --global core.autocrlf input   (pour éviter les problèmes)
 - git push origin main
+l
