@@ -11,11 +11,8 @@ Ajouter les fichiers suivant:
 - Mettre le dossier du zip dans la racine du projet git (pas dans ProjetJava_Eclipse)
 - Mettre le fichier webkit si il est pas présent : "C:\........\ProjetJava\openjfx-15_windows-x64_bin-sdk\javafx-sdk-15\bin\ICI"
 
-Avant de push quoi que ce soit, penser a mettre cette commande dans git bash: (pour éviter les problèmes)
-- git config --global core.autocrlf input 
-
 Mettre a jour les fichiers:
 - git add .
 - git commit -m "Message" (Mettez un message meme nul car sinon vous aller avoir une fenetre pour ajouter un message donc relou)
-- git pull origin main
+- git config --global core.autocrlf input   (pour éviter les problèmes)
 - git push origin main
