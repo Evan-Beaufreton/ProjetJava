@@ -1,0 +1,31 @@
+A FAIRE
+
+Monstre.Defendre(): Mettre en place les compteurs pour les coefs
+
+Joueur, Inventaire() : gestionnaire d'inventaire		New Class ?
+	
+Combat tout
+	Combat.ordonner()
+	
+  Ou un algo de trie perso...
+	
+https://www.developpez.net/forums/d626331/java/general-java/api-standards-tierces/collection-stream/trier-liste-d-objets-arraylist/
+
+import java.util.Comparator;
+
+Collections.sort(liste, Personne.ID_COMPARATOR);
+
+public static final Comparator<Personne> ID_COMPARATOR = new Comparator<Personne>() {
+
+			@Override
+			public int compare(Personne arg0, Personne arg1) {
+				Personne p=(Personne) arg0;
+				Personne q=(Personne) arg1;
+				  if(p.id == q.id)
+				  {    
+					  return p.prenom.compareTo(q.prenom);
+				  }  else if (p.id > q.id)  return 1;
+				  else return -1;				
+			}
+ 
+	    };
