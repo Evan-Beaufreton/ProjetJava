@@ -1,0 +1,40 @@
+package DAO;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import Metier.Groupe;
+
+public class groupeDAO extends DAO{
+
+	private ResultSet rs;
+	
+	@Override
+	public Object create(Object T) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object update(Object T) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Object T) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Groupe read(String code) { 
+		try {
+			rs = stmt.executeQuery("SELECT * FROM groupe WHERE code = "+code+";");
+			
+		} catch (SQLException e) {
+			System.out.println("Erreur d\'execution de la commande");
+			e.printStackTrace();
+		}
+		
+		return null;}
+}
