@@ -1,8 +1,0 @@
-A FAIRE
-
-Monstre.Defendre(): Mettre en place les compteurs pour les coefs temporaires
-
-Joueur -> Inventaire() : gestionnaire d'inventaire
-	
-Combat : tout
-	Combat.ordonner() pour mettre en place l'ordre des interactions

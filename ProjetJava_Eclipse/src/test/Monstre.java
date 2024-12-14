@@ -20,6 +20,7 @@ public class Monstre{
 	
 	protected int niveau; 
 	protected int tauxCapture;
+	protected String description;
 	// next_niveau_xp est le nombre de points d'xp qu'il faut pour passer au niveau suivant.
 	protected double xpNow; protected double next_niveau_xp;
 	
@@ -32,23 +33,27 @@ public class Monstre{
 	protected Capacite move1; protected Capacite move2;
 	protected Capacite move3; protected Capacite move4;
 	
-	public Monstre(String nom, int pvB, int peB, double attaqueB, double specialB, double defenseB, double vitesseB, int tauxCapture) {
+	public Monstre(String nom, int pvB, int peB, double attaqueB, double specialB, double defenseB, double vitesseB, int tauxCapture, String description) {
 		this.nom = nom;
 		niveau = 1;
-		// stat init = (2*baseStat)*(niveau/100)+S
-		//	Si PV, PE alors S = niveau + 10
-		//  Si autres S = 5
-		this.pvMax = (2*pvB)*(niveau/100)+niveau+10;
-		this.peMax = (2*peB)*(niveau/100)+niveau+10;
-		this.attaque = (2*attaqueB)*(niveau/100)+5;
-		this.special = (2*specialB)*(niveau/100)+5;
-		this.defense = (2*defenseB)*(niveau/100)+5;
-		this.vitesse = (2*vitesseB)*(niveau/100)+5;
-		this.tauxCapture = tauxCapture;
 		
 		this.pvB = pvB;	this.peB = peB;
 		this.attaqueB = attaqueB; this.specialB = specialB;
 		this.defenseB = defenseB; this.vitesseB = vitesseB;
+		// stat init = (2*baseStat)*(niveau/100)+S
+		//	Si PV, PE alors S = niveau + 10
+		//  Si autres S = 5
+		double P = (2*pvB)*((double)niveau/100)+niveau+10;
+		this.pvMax = (int) P;
+		this.peMax = (int) P;
+		this.attaque = Math.round(((2*attaqueB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.special = Math.round(((2*specialB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.defense = Math.round(((2*defenseB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.vitesse = Math.round(((2*vitesseB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.tauxCapture = tauxCapture;
+		this.description = description;
+		//double arrondi = Math.round(valeur * 100.0) / 100.0;
+		
 		
 		next_niveau_xp = (Math.pow((niveau+1),3))*0.8; // experience(niveau) = ((niveau)^3)*0.8
 		pvNow = this.pvMax;
@@ -124,9 +129,10 @@ public class Monstre{
 			next_niveau_xp = (Math.pow((niveau+1),3))*0.8;; // experience(niveau) = ((niveau)^3)*0.8
 			
 			double mult = 1/50;
-			pvMax = (2*pvB)*(niveau/100)+niveau+10;
+			double P = (2*pvB)*((double)niveau/100)+niveau+10;
+			pvMax = (int) P;
 			pvNow = pvMax;	//Regagne toutes ses pv au passage de niveau 
-			peMax = (2*peB)*(niveau/100)+niveau+10;
+			peMax = (int) P;
 			pvNow = peMax;	//Regagne aussi ses pe
 			attaque += mult*attaqueB;
 			special += mult*specialB;
@@ -146,7 +152,7 @@ public class Monstre{
 				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
 				cible.setPvNow(cible.getPvNow() - pvPerdus); //gestion de la mort dans Combat
 				System.out.println("L'ennemis a perdu " + pvPerdus);
-				
+				cible.Deces(cible);
 			} else {
 				if (this.getPeNow() >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
 					
@@ -163,6 +169,7 @@ public class Monstre{
 						cible.setPvNow(cible.getPvNow()-pvPerdus);
 						this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'énergie de la capacite
 						System.out.println("L'ennemis a perdu " + pvPerdus);
+						cible.Deces(cible);
 					}
 					
 				} else {
@@ -173,6 +180,15 @@ public class Monstre{
 		} else {System.out.println("L'attaque a échoué");}	
 	}
 
+	protected void Deces(Monstre cible) {
+		if (cible.pvNow <= 0) {
+			pvNow = 0; //pour l'affichage
+			Combat.suppList(cible); //pour l'enlever de la liste des combattants
+			System.out.println(cible.getNom() + " est mort de deces");
+			// il y a aussi l'affichage qui se change
+		}
+	}
+	
 	public void Denfendre() {
 		//prioritaire +1
 		//augment le coef de defense pendant CE TOUR UNIQUEMENT
@@ -181,9 +197,9 @@ public class Monstre{
 		System.out.println(this.nom + " attend en position défensive");
 	}
 
-	public String InformationsRapides() {
-		return nom + ", niveau: " + niveau
-				+ "\nPV : " + pvNow + "/" + pvMax + " et PE :" + peNow + "/" + peMax;
+	public void InformationsRapides() {
+		System.out.println(nom + ", niveau: " + niveau
+				+ "\nPV : " + pvNow + "/" + pvMax + " et PE :" + peNow + "/" + peMax); 
 	}
 	
 	public String toString() {

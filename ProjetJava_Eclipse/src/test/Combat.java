@@ -4,36 +4,34 @@ import java.util.ArrayList;
 
 public class Combat {
 	
-	private static ArrayList<Monstre> Combattants; // liste des monstres participant au combat
+	private static ArrayList<Monstre> Combattants = new ArrayList<Monstre>(); // liste des monstres participant au combat (en vie)
+	private static ArrayList<Monstre> ordrePrio = null;
 	
 	public static int random(int min, int max) {	     
 	    return ((int) (Math.random() * (max - min+1)) + min);
     }
 
-	//définit l'ordre de priorité du tour pour ne pas être affecté par les changements
-	private static ArrayList<Monstre> ordonner() {
+	//définit l'ordre de priorité au début de chaque tour
+	public static ArrayList<Monstre> ordonner() {
 		
-		//Si les monstres sont ajouter au lancement du combat juste après leur création dans la liste,
-		//ils seront déjà dans la liste mais l'ordre doit être fait à chaque tour
-		ArrayList<Monstre> ordrePrio = new ArrayList<Monstre>();	//pas un tab car les morts changent le nb de monstres
+		Combattants = (ArrayList<Monstre>) ordrePrio.clone(); //copie les valeurs et pas l'adresse	des valeurs	
+
+		//Trie par vitesse effective
+		ordrePrio.sort((m1,m2) -> 
+			Double.compare(m2.getVitesse() * m2.getCoefVitesse(), m1.getVitesse() * m1.getCoefVitesse()));
 		
-		ArrayList<Monstre> tampon =  Combattants; //copie les infos ou les adresses ??
-		Monstre rapidite = tampon.get(0);
-		for (int i = 1; i < tampon.size(); i ++) {
-			// .sort() ne fonctionne pas !?	
-			// créer sa propre comparaison tkt
-		}
-		//remplie la liste par ordre de vitesse décroissante / les actions se fait en lisant la list dans l'ordre
-		// vitesseEffective = .getVitesse() * .getCoefVitesse()
-		return null;
+		ordrePrio.forEach(System.out::println);
+
+		return ordrePrio;
 	}
+
 	
-	//Gestion de l'array list
-	private void ajoutList(Monstre monstre) { Combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
+	//Gestion de la liste des parcicipants aux combats
+	public static void ajoutList(Monstre monstre) { Combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
 	
-	private void suppList(Monstre monstre) {
+	public static void suppList(Monstre monstre) {
 		for	(int i = 0; i < Combattants.size(); i++) {
-			if(monstre.getNom().equals(Combattants.get(i).getNom())) {//Si il y a 2 fois le même monstre ? ou on connait sa 'position' comme allié1, allié2 ou ennemi1
+			if(monstre.getNom().equals(Combattants.get(i).getNom())) {// A changer !!! pas avec le nom
 				Combattants.remove(i);
 			}
 		}

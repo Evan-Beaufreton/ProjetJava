@@ -6,13 +6,9 @@ public class Joueur extends Monstre{
 	private int argent;
 	//private ArrayList<Item> inventaire;  A changer avec la partie gestion d'inventaire
 
-	public Joueur(String nom, int pv, int pe, double attaque, double special, double defense, double vitesse, int tauxCapture) {
-		super(nom, pe, pe, vitesse, vitesse, vitesse, vitesse, tauxCapture);
-		this.niveau = 1;
-		this.next_niveau_xp = 15;
+	public Joueur(String nom, int pv, int pe, double attaque, double special, double defense, double vitesse, int tauxCapture, String description) {
+		super(nom, pe, pe, vitesse, vitesse, vitesse, vitesse, tauxCapture, description);
 		this.argent = 0;
-		this.pvNow = this.pvMax;
-		this.peNow = this.peMax;
 	}
 
 	public int getArgent() {

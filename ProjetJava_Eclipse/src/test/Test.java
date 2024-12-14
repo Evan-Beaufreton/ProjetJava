@@ -4,30 +4,28 @@ public class Test {
 	
 	public static void main(String[] args) {
 		System.out.println("UWU");
+		
+		// Créer 6 monstres random + ajout à la liste des combattants
+        Monstre DDD = new Monstre("D/D/D", 100, 50, 140.0, 140.0, 50.0, 90.0, 30, "");
+        Monstre Noko = new Monstre("Noko", 120, 60, 120.0, 80.0, 70.0, 60.0, 40, "");
+        Monstre Magicarpe = new Monstre("Magicarpe", 60, 30, 80.0, 70.0, 140.0, 100.0, 50, "");
+        Monstre Exodia = new Monstre("Exodia", 80, 130, 140.0, 110.0, 30.0, 110.0, 45, "");
+        Monstre Atoupik = new Monstre("Atoupik", 110, 40, 110.0, 160.0, 45.0, 95.0, 35, "");
+        Monstre ABZ = new Joueur("ABZ", 120, 120, 120.0, 120.0, 120.0, 120.0, 0, "");
+        Combat.ajoutList(DDD);Combat.ajoutList(Noko);Combat.ajoutList(Magicarpe);
+        Combat.ajoutList(Exodia);Combat.ajoutList(Atoupik);Combat.ajoutList(ABZ);
+        
+        // Créer 4 attaques
+        Capacite Flamme = new Capacite("Flamme", 95, 95, 5, "");
+        Capacite Morsure = new Capacite("Morsure", 60, 100, 0, "");
+        Capacite Renforcement = new Capacite("Renforcement", 0, 100, 5, "BA5");
+        Capacite Explosion = new Capacite("Explosion", 150, 100, 5, "");
 
-		/*
-		System.out.println(Math.pow(81, 0.25)); // racine 4ème
-		System.out.println(random(1,10));
-		*/
-		
-		/*
-		double coefAttaque = 1.0;
-		double coefCible = 1.0;
-		int niveau = 15;
-		double attaque = 50;
-		double Defense = 35;
-		int Puissance = 55;
-		int pvPerdus = (int)((((niveau*0.5+2)*(attaque*coefAttaque)*Puissance)/(Defense*coefCible))/50);
-		System.out.println(pvPerdus);
-		*/
-		
-		/*
-		Monstre M = new Monstre("D/D/D",10,10,1.0,1.0,1.0,10.0,200);
-		Monstre J1 = new Joueur("ABZ",10,10,2.0,2.0,2.0,2.0,0);
-		System.out.println("\n" +J1);
-		System.out.println(Joueur.Capturer(M));
-		*/
-		
+        ABZ.Attaquer(Morsure, DDD);
+        ABZ.Attaquer(Renforcement, ABZ);
+        System.out.println(ABZ.getCoefAttaque()); 
+        ABZ.Attaquer(Morsure, DDD);
+        DDD.InformationsRapides();
 	}
 	
 }

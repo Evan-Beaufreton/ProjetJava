@@ -1,0 +1,73 @@
+package test;
+
+import java.util.ArrayList;
+
+public class Combat {
+	
+	private static ArrayList<Monstre> Combattants; // liste des monstres participant au combat
+	
+	public static int random(int min, int max) {	     
+	    return ((int) (Math.random() * (max - min+1)) + min);
+    }
+
+	//définit l'ordre de priorité du tour pour ne pas être affecté par les changements
+	private static ArrayList<Monstre> ordonner() {
+		
+		//Si les monstres sont ajouter au lancement du combat juste après leur création dans la liste,
+		//ils seront déjà dans la liste mais l'ordre doit être fait à chaque tour
+		ArrayList<Monstre> ordrePrio;
+		
+		Combattants = (ArrayList<Monstre>) ordrePrio.clone();
+		//ArrayList<String> arrayList1 = new ArrayList<>(arrayList2);
+		
+		ArrayList<Monstre> tampon =  Combattants; //copie les infos ou les adresses ??
+		Monstre rapidite = tampon.get(0);
+		for (int i = 1; i < tampon.size(); i ++) {
+			// .sort() ne fonctionne pas !?	
+			// créer sa propre comparaison tkt
+		}
+		//remplie la liste par ordre de vitesse décroissante / les actions se fait en lisant la list dans l'ordre
+		// vitesseEffective = .getVitesse() * .getCoefVitesse()
+		return null;
+	}
+	
+	/*
+		ArrayList<String> arrayList1 = (ArrayList<String>) arrayList2.clone();
+	
+
+
+        ArrayList<Personnage> personnages = new ArrayList<>();
+        
+        // Trier par vitesse * multiplicateur avec lambda
+        personnages.sort((p1, p2) -> Double.compare(
+            p1.getVitesse() * multiplicateur, 
+            p2.getVitesse() * multiplicateur
+        ));
+
+        // Afficher la liste triée
+        personnages.forEach(System.out::println);
+    }
+}
+
+	 */
+	
+	
+	
+	
+	
+	
+	
+	//Gestion de l'array list
+	private void ajoutList(Monstre monstre) { Combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
+	
+	private void suppList(Monstre monstre) {
+		for	(int i = 0; i < Combattants.size(); i++) {
+			if(monstre.getNom().equals(Combattants.get(i).getNom())) {//Si il y a 2 fois le même monstre ? ou on connait sa 'position' comme allié1, allié2 ou ennemi1
+				Combattants.remove(i);
+			}
+		}
+	}
+
+	
+	
+}

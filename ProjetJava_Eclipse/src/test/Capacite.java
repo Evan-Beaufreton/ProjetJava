@@ -7,6 +7,7 @@ public class Capacite {
 	private int precision;
 	private int cout;		//cout en PE
 	private String effet;
+	protected String description;
 	
 	public Capacite(String nom, int puissance, int precision, int cout, String effet) {
 		super();
@@ -53,13 +54,13 @@ public class Capacite {
 			coef = 0.0 - ratio;
 		}
 		if (tab[1].equals("A")) {
-			cible.setCoefAttaque(cible.getAttaque()+coef);
+			cible.setCoefAttaque(cible.getCoefAttaque()+coef);
 			System.out.println("L'attaque de "+ cible.nom + " change.");
 		} else if (tab[1].equals("S")) {
-			cible.setCoefDefense(cible.getSpecial()+coef);
+			cible.setCoefDefense(cible.getCoefSpecial()+coef);
 			System.out.println("Le spécial de "+ cible.nom + " change.");
 		} else if (tab[1].equals("D")) {
-			cible.setCoefSpecial(cible.getDefense()+coef);
+			cible.setCoefSpecial(cible.getCoefDefense()+coef);
 			System.out.println("La défense de "+ cible.nom + " change.");
 		} else if (tab[1].equals("V")) {
 			cible.setCoefVitesse(cible.getCoefVitesse()+coef);

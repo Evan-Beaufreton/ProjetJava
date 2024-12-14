@@ -1,0 +1,66 @@
+package test;
+
+import java.util.ArrayList;
+
+public class Combat {
+	
+	private static ArrayList<Monstre> Combattants; // liste des monstres participant au combat (en vie)
+	
+	public static int random(int min, int max) {	     
+	    return ((int) (Math.random() * (max - min+1)) + min);
+    }
+
+	//définit l'ordre de priorité au début de chaque tour
+	private static ArrayList<Monstre> ordonner() {
+		
+		ArrayList<Monstre> ordrePrio = new ArrayList<Monstre>();
+		Combattants = (ArrayList<Monstre>) ordrePrio.clone();
+		
+		ArrayList<Monstre> tampon =  Combattants; //copie les infos ou les adresses ??
+		Monstre rapidite = tampon.get(0);
+		for (int i = 1; i < tampon.size(); i ++) {
+			// .sort() ne fonctionne pas !?	
+			// créer sa propre comparaison tkt
+		}
+		//remplie la liste par ordre de vitesse décroissante / les actions se fait en lisant la list dans l'ordre
+		// vitesseEffective = .getVitesse() * .getCoefVitesse()
+		return null;
+	}
+	
+	/*
+
+        ArrayList<Personnage> personnages = new ArrayList<>();
+        
+        // Trier par vitesse * multiplicateur avec lambda
+        personnages.sort((p1, p2) -> Double.compare(
+            p1.getVitesse() * multiplicateur, 
+            p2.getVitesse() * multiplicateur
+        ));
+
+        // Afficher la liste triée
+        personnages.forEach(System.out::println);
+    }
+}
+
+	 */
+	
+	
+	
+	
+	
+	
+	
+	//Gestion de l'array list
+	private void ajoutList(Monstre monstre) { Combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
+	
+	private void suppList(Monstre monstre) {
+		for	(int i = 0; i < Combattants.size(); i++) {
+			if(monstre.getNom().equals(Combattants.get(i).getNom())) {//Si il y a 2 fois le même monstre ? ou on connait sa 'position' comme allié1, allié2 ou ennemi1
+				Combattants.remove(i);
+			}
+		}
+	}
+
+	
+	
+}
