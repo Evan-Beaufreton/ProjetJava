@@ -9,7 +9,7 @@ public class Monstre{
 	// statistiques actuelles du monstre
 	protected double attaque; protected double special;
 	protected double defense; protected double vitesse;
-	// différence entre la stat maximum et la stat actuelles
+	// diffï¿½rence entre la stat maximum et la stat actuelles
 	protected int pvMax; protected int pvNow;				
 	protected int peMax; protected int peNow;
 	
@@ -29,7 +29,7 @@ public class Monstre{
 	protected double coefDefense = 1.0;	protected double coefVitesse = 1.0;
 	
 	//Les attaques du monstre
-	protected ArrayList<Capacite> moveSet = new ArrayList<Capacite>(); //contient les attaques quand elles seront définies
+	protected ArrayList<Capacite> moveSet = new ArrayList<Capacite>(); //contient les attaques quand elles seront definies
 	protected Capacite move1; protected Capacite move2;
 	protected Capacite move3; protected Capacite move4;
 	
@@ -139,45 +139,45 @@ public class Monstre{
 			defense += mult*defenseB;
 			vitesse += mult*vitesseB;
 			
-			System.out.println( nom + " est désormais niveau " + this.niveau + ", ses statistiques ont augmentées");
+			System.out.println( nom + " est dï¿½sormais niveau " + this.niveau + ", ses statistiques ont augmentï¿½es");
 		}
 	}
 	
 	// calcul des dommages :
 	// pvPerdus =(int) ((((niveau*0.5+2)*(attaqueAttaquant*coefboost)*puissanceCapacite)/(defenseCible*coefBoost))/50)
 	public void Attaquer(Capacite capacite, Monstre cible) {
-		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de réussir l'attaque
+		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de rï¿½ussir l'attaque
 			
-			if (capacite.getCout()== 0) {	//Si la capacité est d'attaque
+			if (capacite.getCout()== 0) {	//Si la capacitï¿½ est d'attaque
 				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
 				cible.setPvNow(cible.getPvNow() - pvPerdus); //gestion de la mort dans Combat
 				System.out.println("L'ennemis a perdu " + pvPerdus);
 				cible.Deces(cible);
 			} else {
-				if (this.getPeNow() >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
+				if (this.getPeNow() >= capacite.getCout()) { // Si le monstre a assez d'ï¿½nergie pour utiliser la capacite
 					
 					if (capacite.getPuissance() == 0) { //Si statut
 						
-						if (capacite.getEffet()!= null) { //petite vérif supplémentaire
+						if (capacite.getEffet()!= null) { //petite vï¿½rif supplï¿½mentaire
 							Capacite.Alteration(cible, capacite.getEffet());
 						}
-						this.setPeNow(this.peNow - capacite.getCout()); //retire le cout d'énergie de la capacite
+						this.setPeNow(this.peNow - capacite.getCout()); //retire le cout d'ï¿½nergie de la capacite
 						
 					} else {
 						
 						int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.special*this.coefSpecial)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
 						cible.setPvNow(cible.getPvNow()-pvPerdus);
-						this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'énergie de la capacite
+						this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'ï¿½nergie de la capacite
 						System.out.println("L'ennemis a perdu " + pvPerdus);
 						cible.Deces(cible);
 					}
 					
 				} else {
-					System.out.println(this.nom + " n'a pas assez d'énergie pour lancer son attaque");
+					System.out.println(this.nom + " n'a pas assez d'ï¿½nergie pour lancer son attaque");
 				}
 			}
 			
-		} else {System.out.println("L'attaque a échoué");}	
+		} else {System.out.println("L'attaque a ï¿½chouï¿½");}	
 	}
 
 	protected void Deces(Monstre cible) {
@@ -194,7 +194,7 @@ public class Monstre{
 		//augment le coef de defense pendant CE TOUR UNIQUEMENT
 		this.setCoefSpecial(this.coefDefense+0.3); //jsp combien augmenter le coef
 		
-		System.out.println(this.nom + " attend en position défensive");
+		System.out.println(this.nom + " attend en position dï¿½fensive");
 	}
 
 	public void InformationsRapides() {
@@ -203,11 +203,11 @@ public class Monstre{
 	}
 	
 	public String toString() {
-		return nom + "   niveau: " + niveau + ", Expérience actuelle=" + xpNow + "/" + next_niveau_xp
+		return nom + "   niveau: " + niveau + ", Expï¿½rience actuelle=" + xpNow + "/" + next_niveau_xp
 				+ "\nPV : " + pvNow + "/" + pvMax + "		PE :" + peNow + "/" + peMax
 				+ "\n - Attaque: " + attaque
-				+ ";\n - Spécial: " + special
-				+ ";\n - Défense: " + defense
+				+ ";\n - Spï¿½cial: " + special
+				+ ";\n - Dï¿½fense: " + defense
 				+ ";\n - Vitesse: " + vitesse + ";";
 	}
 
