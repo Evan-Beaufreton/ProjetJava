@@ -9,7 +9,7 @@ public class Capacite {
 	private String effet;
 	protected String description;
 	
-	public Capacite(String nom, int puissance, int precision, int cout, String effet) {
+	public Capacite(String nom, int puissance, int precision, int cout, String effet, String description) {
 		super();
 		this.nom = nom;
 		this.puissance = puissance;
@@ -58,10 +58,10 @@ public class Capacite {
 			System.out.println("L'attaque de "+ cible.nom + " change.");
 		} else if (tab[1].equals("S")) {
 			cible.setCoefDefense(cible.getCoefSpecial()+coef);
-			System.out.println("Le spécial de "+ cible.nom + " change.");
+			System.out.println("Le spï¿½cial de "+ cible.nom + " change.");
 		} else if (tab[1].equals("D")) {
 			cible.setCoefSpecial(cible.getCoefDefense()+coef);
-			System.out.println("La défense de "+ cible.nom + " change.");
+			System.out.println("La dï¿½fense de "+ cible.nom + " change.");
 		} else if (tab[1].equals("V")) {
 			cible.setCoefVitesse(cible.getCoefVitesse()+coef);
 			System.out.println("La vitesse de "+ cible.nom + " change.");

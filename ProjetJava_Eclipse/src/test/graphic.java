@@ -22,6 +22,7 @@ public class graphic extends Application {
         Button bouton_inventaire = new Button("Inventaire");
         Button bouton_sorts = new Button("Sorts");
         Button bouton_objet = new Button("Objet");
+        
 
         // Agrandir les boutons de la boîte gauche
         bouton_attaquer.setPrefHeight(150);

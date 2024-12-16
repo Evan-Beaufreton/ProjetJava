@@ -1,4 +1,4 @@
-package DAO;
+package test;
 
 public class Item {
 	int idItem ;

@@ -2,6 +2,7 @@ package DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import test.Item;
 
 public class ItemDAO extends DAO{
 	ResultSet rs;
