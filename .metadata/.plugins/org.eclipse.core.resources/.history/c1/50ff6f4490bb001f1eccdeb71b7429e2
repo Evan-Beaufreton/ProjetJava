@@ -1,0 +1,14 @@
+A FAIRE
+
+~Monstre.Defendre(): Mettre en place un compteur ou pas
+
+Joueur -> Inventaire() : gestionnaire d'inventaire
+	
+Combat :
+	recuperer les attaques,
+	trier par ordre de vitesse,							Combat.ordonner()
+	changer l'ordre si action prioritaire,
+	dérouler les actions dans l'ordre de la liste,
+		-> gestion des morts 							Monstre.Deces()
+		
+	

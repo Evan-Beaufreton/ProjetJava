@@ -9,13 +9,14 @@ public class Capacite {
 	private String effet;
 	protected String description;
 	
-	public Capacite(String nom, int puissance, int precision, int cout, String effet) {
+	public Capacite(String nom, int puissance, int precision, int cout, String effet, String description) {
 		super();
 		this.nom = nom;
 		this.puissance = puissance;
 		this.precision = precision;
 		this.cout = cout;
 		this.effet = effet;
+		this.description = description;
 	}
 
 	public String getNom() {
@@ -33,9 +34,12 @@ public class Capacite {
 	public String getEffet() {
 		return effet;
 	}
-
-	public static void Alteration(Monstre cible, String effet) {
-		String[] tab = effet.split("");
+	public String getDescription() {
+		return description;
+	}	
+	
+	public void Alteration(Monstre cible) {
+		String[] tab = this.effet.split("");
 		//tab[0] bonus ou malus : 'B' ou 'M'
 		//tab[1] attaque, special, defense ou vitesse : 'A', 'S', 'D' ou 'V'
 		//tab[2] ratio de l'effet (entre 1 et 9)
@@ -66,8 +70,7 @@ public class Capacite {
 			cible.setCoefVitesse(cible.getCoefVitesse()+coef);
 			System.out.println("La vitesse de "+ cible.nom + " change.");
 		}
+	
 	}
-	
-	
-	
+
 }

@@ -43,17 +43,16 @@ public class Monstre{
 		// stat init = (2*baseStat)*(niveau/100)+S
 		//	Si PV, PE alors S = niveau + 10
 		//  Si autres S = 5
-		double P = (2*pvB)*((double)niveau/100)+niveau+10;
-		this.pvMax = (int) P;
-		this.peMax = (int) P;
+		double Pv = (2*pvB)*((double)niveau/100)+niveau+10;
+		double Pe = (2*peB)*((double)niveau/100)+niveau+10;
+		this.pvMax = (int) Pv;
+		this.peMax = (int) Pe;
 		this.attaque = Math.round(((2*attaqueB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.special = Math.round(((2*specialB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.defense = Math.round(((2*defenseB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.vitesse = Math.round(((2*vitesseB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.tauxCapture = tauxCapture;
 		this.description = description;
-		//double arrondi = Math.round(valeur * 100.0) / 100.0;
-		
 		
 		next_niveau_xp = (Math.pow((niveau+1),3))*0.8; // experience(niveau) = ((niveau)^3)*0.8
 		pvNow = this.pvMax;
@@ -63,32 +62,11 @@ public class Monstre{
 	public String getNom() {
 		return nom;
 	}
-	public int getPvMax() {
-		return pvMax;
-	}
-	public void setPvMax(int pvMax) {
-		this.pvMax = pvMax;
-	}
-    public int getPvNow() {
-		return pvNow;
-	}
 	public void setPvNow(int pvNow) {
 		this.pvNow = pvNow;
 	}
-    public int getPeNow() {
-		return peNow;
-	}
 	public void setPeNow(int peNow) {
 		this.peNow = peNow;
-	}
-	public double getAttaque() {
-		return attaque;
-	}
-	public double getSpecial() {
-		return special;
-	}
-	public double getDefense() {
-		return defense;
 	}
 	public double getVitesse() {
 		return vitesse;
@@ -120,8 +98,11 @@ public class Monstre{
 	public void setCoefVitesse(double coefVitesse) {
 		this.coefVitesse = coefVitesse;
 	}
-
-	private void gain_xp(int gain) {
+	public String getDescription() {
+		return description;
+	}
+	
+	public void gain_xp(int gain) {
 		xpNow += gain;
 		while (xpNow >= next_niveau_xp) {
 			xpNow = xpNow - next_niveau_xp;
@@ -149,24 +130,24 @@ public class Monstre{
 		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de réussir l'attaque
 			
 			if (capacite.getCout()== 0) {	//Si la capacité est d'attaque
-				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
-				cible.setPvNow(cible.getPvNow() - pvPerdus); //gestion de la mort dans Combat
+				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.defense*cible.getCoefDefense()))/50);
+				cible.setPvNow(cible.pvNow - pvPerdus); //gestion de la mort dans Combat
 				System.out.println("L'ennemis a perdu " + pvPerdus);
 				cible.Deces(cible);
 			} else {
-				if (this.getPeNow() >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
+				if (this.peNow >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
 					
 					if (capacite.getPuissance() == 0) { //Si statut
 						
-						if (capacite.getEffet()!= null) { //petite vérif supplémentaire
-							Capacite.Alteration(cible, capacite.getEffet());
+						if (capacite.getEffet()!= null) { //petite vérif supplémentaire A VOIR
+							capacite.Alteration(cible);
 						}
 						this.setPeNow(this.peNow - capacite.getCout()); //retire le cout d'énergie de la capacite
 						
 					} else {
 						
-						int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.special*this.coefSpecial)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
-						cible.setPvNow(cible.getPvNow()-pvPerdus);
+						int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.special*this.coefSpecial)*capacite.getPuissance())/(cible.defense*cible.getCoefDefense()))/50);
+						cible.setPvNow(cible.pvNow-pvPerdus);
 						this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'énergie de la capacite
 						System.out.println("L'ennemis a perdu " + pvPerdus);
 						cible.Deces(cible);
@@ -189,7 +170,7 @@ public class Monstre{
 		}
 	}
 	
-	public void Denfendre() {
+	public void Defendre() {
 		//prioritaire +1
 		//augment le coef de defense pendant CE TOUR UNIQUEMENT
 		this.setCoefSpecial(this.coefDefense+0.3); //jsp combien augmenter le coef

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Combat {
 	
-	private static ArrayList<Monstre> Combattants = new ArrayList<Monstre>(); // liste des monstres participant au combat (en vie)
+	private static ArrayList<Monstre> combattants = new ArrayList<Monstre>(); // liste des monstres participant au combat (en vie)
 	private static ArrayList<Monstre> ordrePrio = null;
 	
 	public static int random(int min, int max) {	     
@@ -12,9 +12,10 @@ public class Combat {
     }
 
 	//définit l'ordre de priorité au début de chaque tour
+	@SuppressWarnings("unchecked") //?
 	public static ArrayList<Monstre> ordonner() {
 		
-		Combattants = (ArrayList<Monstre>) ordrePrio.clone(); //copie les valeurs et pas l'adresse	des valeurs	
+		ordrePrio = (ArrayList<Monstre>) combattants.clone(); //copie les valeurs et pas l'adresse	des valeurs	
 
 		//Trie par vitesse effective
 		ordrePrio.sort((m1,m2) -> 
@@ -25,14 +26,13 @@ public class Combat {
 		return ordrePrio;
 	}
 
-	
 	//Gestion de la liste des parcicipants aux combats
-	public static void ajoutList(Monstre monstre) { Combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
+	public static void ajoutCombattant(Monstre monstre) { combattants.add(monstre); } //Ajoute un monstre à la liste des combattants
 	
 	public static void suppList(Monstre monstre) {
-		for	(int i = 0; i < Combattants.size(); i++) {
-			if(monstre.getNom().equals(Combattants.get(i).getNom())) {// A changer !!! pas avec le nom
-				Combattants.remove(i);
+		for	(int i = 0; i < combattants.size(); i++) {
+			if(monstre.getNom().equals(combattants.get(i).getNom())) {// A changer !!! pas avec le nom
+				combattants.remove(i);
 			}
 		}
 	}

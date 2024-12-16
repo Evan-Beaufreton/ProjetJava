@@ -31,7 +31,7 @@ public class Joueur extends Monstre{
 
 	public void Capture(Monstre cible) {
 		//prioritaire +3
-		double x = ((1.0-(2.0/3.0)*(cible.getPvNow()/cible.getPvMax()))*cible.getTauxCapture());	//ratio des PV
+		double x = ((1.0-(2.0/3.0)*(cible.pvNow/cible.pvMax))*cible.getTauxCapture());	//ratio des PV
 		double resultat = (Math.pow(((65535.0*Math.pow((x/255.0), 0.25)+1.0)/65535.0), 4.0))*100;	//pourcentage final
 		
 		boolean reussite = false;

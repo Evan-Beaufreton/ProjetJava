@@ -1,0 +1,209 @@
+package test;
+
+import java.util.ArrayList;
+
+public class Monstre{
+	
+	public String nom;
+	
+	// statistiques actuelles du monstre
+	protected double attaque; protected double special;
+	protected double defense; protected double vitesse;
+	// différence entre la stat maximum et la stat actuelles
+	protected int pvMax; protected int pvNow;				
+	protected int peMax; protected int peNow;
+	
+	// statistiques de Base de l'espece
+	protected double attaqueB; protected double specialB;
+	protected double defenseB; protected double vitesseB;
+	protected int pvB; protected int peB;
+	
+	protected int niveau; 
+	protected int tauxCapture;
+	protected String description;
+	// next_niveau_xp est le nombre de points d'xp qu'il faut pour passer au niveau suivant.
+	protected double xpNow; protected double next_niveau_xp;
+	
+	//Malus ou Bonus sur la statistique
+	protected double coefAttaque = 1.0;	protected double coefSpecial = 1.0;
+	protected double coefDefense = 1.0;	protected double coefVitesse = 1.0;
+	
+	//Les attaques du monstre
+	protected ArrayList<Capacite> moveSet = new ArrayList<Capacite>(); //contient les attaques quand elles seront définies
+	protected Capacite move1; protected Capacite move2;
+	protected Capacite move3; protected Capacite move4;
+	
+	public Monstre(String nom, int pvB, int peB, double attaqueB, double specialB, double defenseB, double vitesseB, int tauxCapture, String description) {
+		this.nom = nom;
+		niveau = 1;
+		
+		this.pvB = pvB;	this.peB = peB;
+		this.attaqueB = attaqueB; this.specialB = specialB;
+		this.defenseB = defenseB; this.vitesseB = vitesseB;
+		// stat init = (2*baseStat)*(niveau/100)+S
+		//	Si PV, PE alors S = niveau + 10
+		//  Si autres S = 5
+		double Pv = (2*pvB)*((double)niveau/100)+niveau+10;
+		double Pe = (2*peB)*((double)niveau/100)+niveau+10;
+		this.pvMax = (int) Pv;
+		this.peMax = (int) Pe;
+		this.attaque = Math.round(((2*attaqueB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.special = Math.round(((2*specialB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.defense = Math.round(((2*defenseB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.vitesse = Math.round(((2*vitesseB)*((double)niveau/100)+5.0)*100.0)/100.0;
+		this.tauxCapture = tauxCapture;
+		this.description = description;
+		
+		next_niveau_xp = (Math.pow((niveau+1),3))*0.8; // experience(niveau) = ((niveau)^3)*0.8
+		pvNow = this.pvMax;
+		peNow = this.peMax;
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+    public int getPvNow() {
+		return pvNow;
+	}
+	public void setPvNow(int pvNow) {
+		this.pvNow = pvNow;
+	}
+    public int getPeNow() {
+		return peNow;
+	}
+	public void setPeNow(int peNow) {
+		this.peNow = peNow;
+	}
+	public double getAttaque() {
+		return attaque;
+	}
+	public double getSpecial() {
+		return special;
+	}
+	public double getDefense() {
+		return defense;
+	}
+	public double getVitesse() {
+		return vitesse;
+	}
+	public double getTauxCapture() {
+		return tauxCapture;
+	}
+	public double getCoefAttaque() {
+		return coefAttaque;
+	}
+	public void setCoefAttaque(double coefAttaque) {
+		this.coefAttaque = coefAttaque;
+	}
+	public double getCoefSpecial() {
+		return coefSpecial;
+	}
+	public void setCoefSpecial(double coefSpecial) {
+		this.coefSpecial = coefSpecial;
+	}
+	public double getCoefDefense() {
+		return coefDefense;
+	}
+	public void setCoefDefense(double coefDefense) {
+		this.coefDefense = coefDefense;
+	}
+	public double getCoefVitesse() {
+		return coefVitesse;
+	}
+	public void setCoefVitesse(double coefVitesse) {
+		this.coefVitesse = coefVitesse;
+	}
+
+	private void gain_xp(int gain) {
+		xpNow += gain;
+		while (xpNow >= next_niveau_xp) {
+			xpNow = xpNow - next_niveau_xp;
+			niveau++;
+			next_niveau_xp = (Math.pow((niveau+1),3))*0.8;; // experience(niveau) = ((niveau)^3)*0.8
+			
+			double mult = 1/50;
+			double P = (2*pvB)*((double)niveau/100)+niveau+10;
+			pvMax = (int) P;
+			pvNow = pvMax;	//Regagne toutes ses pv au passage de niveau 
+			peMax = (int) P;
+			pvNow = peMax;	//Regagne aussi ses pe
+			attaque += mult*attaqueB;
+			special += mult*specialB;
+			defense += mult*defenseB;
+			vitesse += mult*vitesseB;
+			
+			System.out.println( nom + " est désormais niveau " + this.niveau + ", ses statistiques ont augmentées");
+		}
+	}
+	
+	// calcul des dommages :
+	// pvPerdus =(int) ((((niveau*0.5+2)*(attaqueAttaquant*coefboost)*puissanceCapacite)/(defenseCible*coefBoost))/50)
+	public void Attaquer(Capacite capacite, Monstre cible) {
+		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de réussir l'attaque
+			
+			if (capacite.getCout()== 0) {	//Si la capacité est d'attaque
+				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
+				cible.setPvNow(cible.getPvNow() - pvPerdus); //gestion de la mort dans Combat
+				System.out.println("L'ennemis a perdu " + pvPerdus);
+				cible.Deces(cible);
+			} else {
+				if (this.getPeNow() >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
+					
+					if (capacite.getPuissance() == 0) { //Si statut
+						
+						if (capacite.getEffet()!= null) { //petite vérif supplémentaire
+							Capacite.Alteration(cible, capacite.getEffet());
+						}
+						this.setPeNow(this.peNow - capacite.getCout()); //retire le cout d'énergie de la capacite
+						
+					} else {
+						
+						int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.special*this.coefSpecial)*capacite.getPuissance())/(cible.getDefense()*cible.getCoefDefense()))/50);
+						cible.setPvNow(cible.getPvNow()-pvPerdus);
+						this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'énergie de la capacite
+						System.out.println("L'ennemis a perdu " + pvPerdus);
+						cible.Deces(cible);
+					}
+					
+				} else {
+					System.out.println(this.nom + " n'a pas assez d'énergie pour lancer son attaque");
+				}
+			}
+			
+		} else {System.out.println("L'attaque a échoué");}	
+	}
+
+	protected void Deces(Monstre cible) {
+		if (cible.pvNow <= 0) {
+			pvNow = 0; //pour l'affichage
+			Combat.suppList(cible); //pour l'enlever de la liste des combattants
+			System.out.println(cible.getNom() + " est mort de deces");
+			// il y a aussi l'affichage qui se change
+		}
+	}
+	
+	public void Denfendre() {
+		//prioritaire +1
+		//augment le coef de defense pendant CE TOUR UNIQUEMENT
+		this.setCoefSpecial(this.coefDefense+0.3); //jsp combien augmenter le coef
+		
+		System.out.println(this.nom + " attend en position défensive");
+	}
+
+	public void InformationsRapides() {
+		System.out.println(nom + ", niveau: " + niveau
+				+ "\nPV : " + pvNow + "/" + pvMax + " et PE :" + peNow + "/" + peMax); 
+	}
+	
+	public String toString() {
+		return nom + "   niveau: " + niveau + ", Expérience actuelle=" + xpNow + "/" + next_niveau_xp
+				+ "\nPV : " + pvNow + "/" + pvMax + "		PE :" + peNow + "/" + peMax
+				+ "\n - Attaque: " + attaque
+				+ ";\n - Spécial: " + special
+				+ ";\n - Défense: " + defense
+				+ ";\n - Vitesse: " + vitesse + ";";
+	}
+
+
+}
