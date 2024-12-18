@@ -1,6 +1,12 @@
 A FAIRE
 
-~Monstre.Defendre(): Mettre en place un compteur ou pas
+
+changer les statB par des requetes SQL !
+
+arrondir au dixième les stats et l'xp
+faire la demande si on veut changer une capacite
+
+~Monstre.Defendre(): Mettre en place un compteur
 
 Joueur -> Inventaire() : gestionnaire d'inventaire
 	

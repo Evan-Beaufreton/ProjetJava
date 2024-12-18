@@ -34,11 +34,12 @@ public class Monstre{
 	//Les attaques du monstre
 	protected ArrayList<Capacite> moveSet = new ArrayList<Capacite>(); //contient les attaques quand elles seront definies
 	protected Capacite move1 = new Capacite("Chager", 40, 100, 0, null, "Une petite attaque de base"); //Attaque par défaut.
-	protected Capacite move2; protected Capacite move3; protected Capacite move4;
+	protected Capacite move2 = null ; protected Capacite move3 = null; protected Capacite move4 = null;
 	
 	public Monstre(String nom, int pvB, int peB, double attaqueB, double specialB, double defenseB, double vitesseB, int tauxCapture, String description) {
 		this.nom = nom;
 		niveau = 1;
+		this.moveSet.add(move1);
 		
 		this.pvB = pvB;	this.peB = peB;
 		this.attaqueB = attaqueB; this.specialB = specialB;
@@ -46,10 +47,8 @@ public class Monstre{
 		// stat init = (2*baseStat)*(niveau/100)+S
 		//	Si PV, PE alors S = niveau + 10
 		//  Si autres S = 5
-		double Pv = (2*pvB)*((double)niveau/100)+niveau+10;
-		double Pe = (2*peB)*((double)niveau/100)+niveau+10;
-		this.pvMax = (int) Pv;
-		this.peMax = (int) Pe;
+		this.pvMax = (int) ((2*pvB)*((double)niveau/100)+niveau+10);
+		this.peMax = (int) ((2*peB)*((double)niveau/100)+niveau+10);
 		this.attaque = Math.round(((2*attaqueB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.special = Math.round(((2*specialB)*((double)niveau/100)+5.0)*100.0)/100.0;
 		this.defense = Math.round(((2*defenseB)*((double)niveau/100)+5.0)*100.0)/100.0;
@@ -105,28 +104,6 @@ public class Monstre{
 		return description;
 	}
 	
-	public void gain_xp(int gain) {
-		xpNow += gain;
-		while (xpNow >= next_niveau_xp) {
-			xpNow = xpNow - next_niveau_xp;
-			niveau++;
-			next_niveau_xp = (Math.pow((niveau+1),3))*0.8;; // experience(niveau) = ((niveau)^3)*0.8
-			
-			double mult = 1/50;
-			double P = (2*pvB)*((double)niveau/100)+niveau+10;
-			pvMax = (int) P;
-			pvNow = pvMax;	//Regagne toutes ses pv au passage de niveau 
-			peMax = (int) P;
-			pvNow = peMax;	//Regagne aussi ses pe
-			attaque += mult*attaqueB;
-			special += mult*specialB;
-			defense += mult*defenseB;
-			vitesse += mult*vitesseB;
-			
-			System.out.println( nom + " est desormais niveau " + this.niveau + ", ses statistiques ont augmentees");
-		}
-	}
-	
 	// calcul des dommages :
 	// pvPerdus =(int) ((((niveau*0.5+2)*(attaqueAttaquant*coefboost)*puissanceCapacite)/(defenseCible*coefBoost))/50)
 	public void Attaquer(Capacite capacite, Monstre cible) {
@@ -136,7 +113,7 @@ public class Monstre{
 				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.defense*cible.getCoefDefense()))/50);
 				cible.setPvNow(cible.pvNow - pvPerdus); //gestion de la mort dans Combat
 				System.out.println("L'ennemis a perdu " + pvPerdus);
-				cible.Deces(cible);
+				cible.Deces();
 			} else {
 				if (this.peNow >= capacite.getCout()) { // Si le monstre a assez d'énergie pour utiliser la capacite
 
@@ -149,7 +126,7 @@ public class Monstre{
 							cible.setPvNow(cible.pvNow-pvPerdus);
 							this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'energie de la capacite
 							System.out.println("L'ennemis a perdu " + pvPerdus);
-							cible.Deces(cible);
+							cible.Deces();
 						}
 
 					} else {
@@ -160,11 +137,11 @@ public class Monstre{
 		} else {System.out.println("L'attaque a echoue");}	
 	}
 
-	protected void Deces(Monstre cible) {
-		if (cible.pvNow <= 0) {
+	protected void Deces() {
+		if (this.pvNow <= 0) {
 			pvNow = 0; //pour l'affichage
-			Main.suppList(cible); //pour l'enlever de la liste des combattants
-			System.out.println(cible.getNom() + " est mort de deces");
+			Main.suppList(this); //pour l'enlever de la liste des combattants
+			System.out.println(this.getNom() + " est mort de deces");
 			// il y a aussi l'affichage qui se change
 		}
 	}
@@ -177,6 +154,47 @@ public class Monstre{
 		System.out.println(this.nom + " attend en position dï¿½fensive");
 	}
 
+	public void gain_xp(int gain) {
+		xpNow += gain;
+		while (xpNow >= next_niveau_xp) {
+			xpNow = xpNow - next_niveau_xp;
+			niveau++;
+			next_niveau_xp = (Math.pow((niveau+1),3))*0.8;; // experience(niveau) = ((niveau)^3)*0.8
+			
+			double mult = 1.0/50.0;
+			pvMax = (int) ((2*pvB)*((double)niveau/100)+niveau+10);
+			pvNow = pvMax;	//Regagne toutes ses pv au passage de niveau 
+			peMax = (int) ((2*peB)*((double)niveau/100)+niveau+10);
+			pvNow = peMax;	//Regagne aussi ses pe
+			attaque += mult*attaqueB;
+			special += mult*specialB;
+			defense += mult*defenseB;
+			vitesse += mult*vitesseB;
+			
+			System.out.println( nom + " est desormais niveau " + this.niveau + ", ses statistiques ont augmentees");
+		}
+	}
+	// capacite obtenu si il y en a une dans la base
+	public boolean new_move(Capacite capacite) {
+		if (moveSet.size() < 4) {	//si il n'a pas ses 4 attaques, on ajoute directement où l'on peut
+			if (move2 == null) { move2 = capacite; moveSet.add(move2); return true;
+			}
+			if (move3 == null) { move3 = capacite; moveSet.add(move3); return true;
+			}
+			if (move4 == null) { move4 = capacite; moveSet.add(move4); return true;
+			}
+		} else {	//emplace une capacite par une nouvelle 
+			boolean remplacer  = true;	// demander si on veut la capacite ou pas !!!!!!!!!!
+			if (remplacer){ 
+				//choix de la capacite a enlever
+				//remplacer move-nieme par la nouvelle capacite
+				return true;
+			} else { return true; } // ne rien faire
+		}
+		return true;
+	}
+	
+	
 	public void InformationsRapides() {
 		System.out.println(nom + ", niveau: " + niveau
 				+ "\nPV : " + pvNow + "/" + pvMax + " et PE :" + peNow + "/" + peMax); 

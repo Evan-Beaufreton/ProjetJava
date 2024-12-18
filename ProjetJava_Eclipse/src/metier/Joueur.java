@@ -33,21 +33,27 @@ public class Joueur extends Monstre{
 
 	public void Capture(Monstre cible) {
 		//prioritaire +3
-		double x = ((1.0-(2.0/3.0)*(cible.pvNow/cible.pvMax))*cible.getTauxCapture());	//ratio des PV
-		double resultat = (Math.pow(((65535.0*Math.pow((x/255.0), 0.25)+1.0)/65535.0), 4.0))*100;	//pourcentage final
-		
-		boolean reussite = false;
-		for (int i = 1; i < 5; i++) { //test 4 fois la possibilité de capturer le monstre
-			if (Main.random(1, 100) <= resultat) {	
-				reussite = true;	//si il y a au moins une réussite, il est capturé
+		if (Main.dispoCapture()) {
+			double x = ((1.0-(2.0/3.0)*(cible.pvNow/cible.pvMax))*cible.getTauxCapture());	//ratio des PV
+			double resultat = (Math.pow(((65535.0*Math.pow((x/255.0), 0.25)+1.0)/65535.0), 4.0))*100;	//pourcentage final
+
+			boolean reussite = false;
+			for (int i = 1; i < 5; i++) { //test 4 fois la possibilité de capturer le monstre
+				if (Main.random(1, 100) <= resultat) {	
+					reussite = true;	//si il y a au moins une réussite, il est capturé
+				}
 			}
- 		}
-		if (reussite) {
-			System.out.println("Capture réussie");
-			
+			if (reussite) {
+				System.out.println("Capture réussie");
+				Main.suppList(this);
+			} else {
+				System.out.println("Echec de la capture");
+			}
 		} else {
-			System.out.println("Echec de la capture");
+			System.out.println("Il y a encore trop d'ennemis sur le terrain");
 		}
+		
+		
 	}
 	
 	// Inventaire -> prioritaire +2 lors de l'utilisation durant le tour

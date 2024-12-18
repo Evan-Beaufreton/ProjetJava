@@ -5,6 +5,7 @@ public class Item {
 	String nom;
 	String efficacite;
 	String description;
+	
 	public Item(int idItem,String nom,String efficacite,String description ) {
 		
 		this.idItem=idItem;
@@ -12,11 +13,8 @@ public class Item {
 		this.efficacite=efficacite;
 		this.description=description;
 		
-		
-		
-		
-		
 	}
+	
 	@Override
 	public String toString() {
 		return "Item [idItem=" + idItem + ", nom=" + nom + ", efficacite=" + efficacite + ", description=" + description

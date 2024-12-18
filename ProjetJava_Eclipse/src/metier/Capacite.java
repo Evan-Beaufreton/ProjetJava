@@ -6,7 +6,7 @@ public class Capacite {
 	private int puissance;
 	private int precision;
 	private int cout;		//cout en PE
-	private String effet;
+	private String effet;	//code correspondant a une modification d'un coef Monstre
 	protected String description;
 	
 	public Capacite(String nom, int puissance, int precision, int cout, String effet, String description) {
