@@ -1,0 +1,23 @@
+package test;
+
+import DAO.MonstreDAO;
+
+
+public class Test {
+	
+	public static void main(String[] args) {
+		System.out.println("uwu");
+		
+		MonstreDAO m = new MonstreDAO();
+		Monstre pikachu = m.read("Pikachu");
+		Monstre dracofeu = m.read("Dracofeu");
+		Monstre bulbizarre = m .read("Bulbizarre");
+		Monstre ectoplasma = m.read("Ectoplasma");
+		Monstre ronflex = m.read("Ronflex");
+		Monstre ABZ = new Joueur("ABZ", 300, 40, 110, 70, 120, 20, 10, null);
+		
+		Combat.ajoutCombattant(ABZ); Combat.ajoutCombattant(ronflex); Combat.ajoutCombattant(ectoplasma); 
+		Combat.ajoutCombattant(bulbizarre); Combat.ajoutCombattant(dracofeu); Combat.ajoutCombattant(pikachu);
+	}
+	
+}

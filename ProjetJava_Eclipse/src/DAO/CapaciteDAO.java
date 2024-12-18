@@ -2,7 +2,8 @@ package DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import test.Capacite;
+
+import metier.Capacite;
 
 public class CapaciteDAO extends DAO  {
 	

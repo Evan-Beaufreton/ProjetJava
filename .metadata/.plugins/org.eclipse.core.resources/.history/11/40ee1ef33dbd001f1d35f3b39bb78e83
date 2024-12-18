@@ -1,0 +1,41 @@
+package test;
+
+import DAO.MonstreDAO;
+import java.util.Scanner;
+
+public class Test {
+	
+	public static void main(String[] args) {
+		System.out.println("uwu");
+		
+		MonstreDAO m = new MonstreDAO();
+		Monstre pikachu = m.read("Pikachu");
+		Monstre dracofeu = m.read("Dracofeu");
+		Monstre bulbizarre = m .read("Bulbizarre");
+		Monstre ectoplasma = m.read("Ectoplasma");
+		Monstre ronflex = m.read("Ronflex");
+		Monstre ABZ = new Joueur("ABZ", 120, 100, 120, 120, 120, 120, 0, null);
+		
+		Combat.ajoutCombattant(ABZ); Combat.ajoutCombattant(ronflex); Combat.ajoutCombattant(ectoplasma); 
+		Combat.ajoutCombattant(bulbizarre); Combat.ajoutCombattant(dracofeu); Combat.ajoutCombattant(pikachu);	
+		
+		
+		/*
+		// Créer un objet Scanner pour lire l'entrée depuis la console
+        Scanner scanner = new Scanner(System.in);
+
+        // Lire la ligne de texte saisie par l'utilisateur
+        String texte = scanner.nextLine();
+        
+        // Fermer le scanner
+        scanner.close();
+		 */
+		
+		
+		System.out.println("Début du jeu");
+		//1. choix des équipiers parmis la liste dispo (monstre de base au début + monstres capturées par la suite
+		
+		
+	}
+	
+}

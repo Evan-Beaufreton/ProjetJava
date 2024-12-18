@@ -2,7 +2,8 @@ package DAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import test.Monstre;
+
+import metier.Monstre;
 
 public class MonstreDAO extends DAO {
 	ResultSet rs;
