@@ -10,7 +10,7 @@ public class SingleConnection {
 
     private SingleConnection() {
         String user = "root";
-        String mdp = "root"; // !!!!!
+        String mdp = ""; // !!!!!
         String url = "jdbc:mysql://localhost:3306/jeu_java?useSSL=false&serverTimezone=UTC";
 
         try {

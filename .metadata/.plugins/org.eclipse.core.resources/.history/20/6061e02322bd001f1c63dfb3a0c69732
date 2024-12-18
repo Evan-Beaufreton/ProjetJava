@@ -1,0 +1,38 @@
+package test;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+//import DAO.MonstreDAO;
+//import DAO.DAO;
+//import DAO.SingleConnection;
+
+public class Test {
+	
+	public static void main(String[] args) {
+		System.out.println("uwu");
+		
+		 String user = "root";
+	     String mdp = ""; // !!!!!
+	     String url = "jdbc:mysql://localhost:3306/jeu_java?useSSL=false&serverTimezone=UTC";
+
+		
+		Connection cn = null;
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			System.out.println("Driver OK !");
+			cn= DriverManager.getConnection(url, login, password);
+			System.out.println("Connexion r�ussie !");
+		} 
+		catch (ClassNotFoundException e) {
+			System.err.println("Erreur de chargement du driver");
+			e.printStackTrace();
+		}
+		catch (SQLException e) {
+			System.err.println("Erreur d'�tablissement de connexion");
+			e.printStackTrace();
+		}
+	}
+	
+}

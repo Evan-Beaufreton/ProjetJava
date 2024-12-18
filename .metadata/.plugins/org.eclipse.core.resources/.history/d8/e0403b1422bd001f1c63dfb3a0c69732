@@ -1,0 +1,15 @@
+package test;
+
+//import DAO.MonstreDAO;
+//import DAO.DAO;
+//import DAO.SingleConnection;
+
+public class Test {
+	
+	public static void main(String[] args) {
+		System.out.println("uwu");
+		
+		
+	}
+	
+}

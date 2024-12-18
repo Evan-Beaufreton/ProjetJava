@@ -3,4 +3,6 @@
     <fullyQualifiedTypeName name="java.util.ArrayList"/>
     <fullyQualifiedTypeName name="test.Combat"/>
     <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="DAO.MonstreDAO"/>
+    <fullyQualifiedTypeName name="DAO.SingleConnection"/>
 </qualifiedTypeNameHistroy>

@@ -10,16 +10,16 @@ public class SingleConnection {
 
     private SingleConnection() {
         String user = "root";
-        String mdp = "root"; // !!!!!
+        String mdp = ""; // !!!!!
         String url = "jdbc:mysql://localhost:3306/jeu_java?useSSL=false&serverTimezone=UTC";
 
         try {
             // Création de la connexion
             connect = DriverManager.getConnection(url, user, mdp);
-            System.out.println("Connexion reussie");
+            System.out.println("Connexion réussie");
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Connexion echouee");
+            System.out.println("Connexion échouée");
         }
     }
 
@@ -27,7 +27,6 @@ public class SingleConnection {
     public static Connection getInstance() {
         if (connect == null) {
             new SingleConnection(); // Appel au constructeur privé
-            return connect;
         }
         return connect;
     }

@@ -20,11 +20,11 @@ public class Joueur extends Monstre{
 
 	@Override
 	public String toString() {
-		return nom + "   niveau: " + niveau + ", Experience actuelle=" + xpNow + "/" + next_niveau_xp
+		return nom + "   niveau: " + niveau + ", Expérience actuelle=" + xpNow + "/" + next_niveau_xp
 				+ "\nPV : " + pvNow + "/" + pvMax + "		PE :" + peNow + "/" + peMax
 				+ "\n - Attaque: " + attaque
-				+ ";\n - Special: " + special
-				+ ";\n - Defense: " + defense
+				+ ";\n - Spécial: " + special
+				+ ";\n - Défense: " + defense
 				+ ";\n - Vitesse: " + vitesse
 				+ ";\n zennys: " + argent;
 	}

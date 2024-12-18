@@ -120,14 +120,14 @@ public class Monstre{
 			defense += mult*defenseB;
 			vitesse += mult*vitesseB;
 			
-			System.out.println( nom + " est desormais niveau " + this.niveau + ", ses statistiques ont augmentees");
+			System.out.println( nom + " est dï¿½sormais niveau " + this.niveau + ", ses statistiques ont augmentï¿½es");
 		}
 	}
 	
 	// calcul des dommages :
 	// pvPerdus =(int) ((((niveau*0.5+2)*(attaqueAttaquant*coefboost)*puissanceCapacite)/(defenseCible*coefBoost))/50)
 	public void Attaquer(Capacite capacite, Monstre cible) {
-		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de reussir l'attaque
+		if (Combat.random(1, 100) <= capacite.getPrecision()) { //chance de rï¿½ussir l'attaque
 
 			if (capacite.getCout()== 0) {	//Si la capacité est d'attaque
 				int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.attaque*this.coefAttaque)*capacite.getPuissance())/(cible.defense*cible.getCoefDefense()))/50);
@@ -144,17 +144,17 @@ public class Monstre{
 						} else {
 							int pvPerdus = (int) ((((this.niveau*0.5+2)*(this.special*this.coefSpecial)*capacite.getPuissance())/(cible.defense*cible.getCoefDefense()))/50);
 							cible.setPvNow(cible.pvNow-pvPerdus);
-							this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'energie de la capacite
+							this.setPeNow(this.peNow - capacite.getCout());	//mettre le cout d'ï¿½nergie de la capacite
 							System.out.println("L'ennemis a perdu " + pvPerdus);
 							cible.Deces(cible);
 						}
 
 					} else {
-						System.out.println(this.nom + " n'a pas assez d'energie pour lancer son attaque");
+						System.out.println(this.nom + " n'a pas assez d'ï¿½nergie pour lancer son attaque");
 					}
 				}
 			}	
-		} else {System.out.println("L'attaque a echoue");}	
+		} else {System.out.println("L'attaque a ï¿½chouï¿½");}	
 	}
 
 	protected void Deces(Monstre cible) {
@@ -180,11 +180,11 @@ public class Monstre{
 	}
 	
 	public String toString() {
-		return nom + "   niveau: " + niveau + ", Experience actuelle=" + xpNow + "/" + next_niveau_xp
+		return nom + "   niveau: " + niveau + ", Expï¿½rience actuelle=" + xpNow + "/" + next_niveau_xp
 				+ "\nPV : " + pvNow + "/" + pvMax + "		PE :" + peNow + "/" + peMax
 				+ "\n - Attaque: " + attaque
-				+ ";\n - Special: " + special
-				+ ";\n - Defense: " + defense
+				+ ";\n - Spï¿½cial: " + special
+				+ ";\n - Dï¿½fense: " + defense
 				+ ";\n - Vitesse: " + vitesse + ";";
 	}
 
